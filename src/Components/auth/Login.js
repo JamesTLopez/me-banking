@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { firestoreConnect } from 'react-redux-firebase'
+import {compose} from 'redux'
+import {connect} from 'react-redux'
+import {notifyUser} from '../../Actions/notifyActions'
+import Alert from '../Layouts/Alert'
+import Footer from '../Layouts/Footer'
 
 
 class Login extends Component {
@@ -16,16 +21,19 @@ class Login extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const {firebase} = this.props
+        const {firebase, notifyUser} = this.props
         const {email,password} = this.state;
-
+        
         firebase.login({
             email,
             password
-        }).catch(err => alert('Invalid Login'))
+        }).catch(err => notifyUser('Invalid User','error'))
+       
     }
     
     render() {
+   
+        const {message,messageType} = this.props.notify;
         return (
             <div className="Home" >
                 <div className="container-fluid bg-dark">
@@ -40,7 +48,7 @@ class Login extends Component {
                         </div>
                     </nav>
                 </div>
-                <div className="container d-flex justify-content-center align-items-center h-100">
+                <div className="container d-flex justify-content-center mt-5 h-100">
                     <div className="row w-50">
                         <div className="col-lg-12 col-md-12">
                             <div className="card">
@@ -48,6 +56,9 @@ class Login extends Component {
                                     <h1>Login</h1>
                                 </div>
                                 <div className="card-body">
+                                    {message ? (
+                                        <Alert message={message} messageType={messageType}/>
+                                    ) : null}
                                     <form onSubmit={this.onSubmit}>
                                                 <div className="form-group">
                                                     <label htmlFor="email">Email Address</label>
@@ -71,12 +82,15 @@ class Login extends Component {
                                                 </div>
                                                 <input type="submit" value="Submit" className="btn btn-primary btn-block"></input>
                                     </form>
-                                    </div>
                                 </div>
-                            </div>
+                             </div>
                         </div>
                     </div>
                 </div>
+                <div className="footer">
+                    <Footer/>
+                </div>
+            </div>
         )
     }
 }
@@ -86,4 +100,9 @@ Login.propTypes = {
 }
 
 
-export default firestoreConnect()(Login);
+export default compose(
+    firestoreConnect(),
+    connect((state,props) => ({
+        notify:state.notifyReducer
+    }),{notifyUser})
+)(Login);

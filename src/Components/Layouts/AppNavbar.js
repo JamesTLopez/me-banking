@@ -23,11 +23,11 @@ class AppNavbar extends Component {
        e.preventDefault();
 
        const {firebase} = this.props
-       firebase.logout().then(()=>this.props.history.push('/'));
+       firebase.logout();
     }
+
     render() {
         const {isAuthenticated} = this.state
-        const {auth} = this.props
         return (
            
                 <nav className="navbar navbar-expand-md navbar-dark bg-primary">
@@ -48,8 +48,7 @@ class AppNavbar extends Component {
                             </li>
                             {isAuthenticated ? (
                             <li className="nav-item">
-                                <Link to="/" className="nav-link">Log out</Link>
-                                <a href="!#" onClick={this.onLogout} className="nav-link"> {auth.email}</a>
+                                <a href="!#" onClick={this.onLogout} className="nav-link"> Log Out</a>
                             </li>
                             ):null}
                             

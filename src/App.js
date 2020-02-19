@@ -13,6 +13,7 @@ import Dashboard from './Components/Layouts/Dashboard';
 import addClients from './Components/clients/addClients';
 import clientDetail from './Components/clients/clientDetails';
 import editClientBalance from './Components/clients/editClientBalance';
+import {UserIsAuthenticated,UserIsNotAuthenticated} from './helpers/auth'
 
 
 
@@ -25,14 +26,13 @@ function App() {
       <ReactReduxFirebaseProvider {...rrfProps}>
         <Router>
           <div className="App">
-            
               <Switch>
                 <Route exact path="/" component={Home}></Route>
-                <Route exact path="/login" component={Login}></Route>
-                <Route exact path="/dashboard" component={Dashboard}></Route>
-                <Route exact path="/client/add" component={addClients}></Route>
-                <Route exact path="/client/:id" component={clientDetail}></Route>
-                <Route exact path="/client/edit/:id" component={editClientBalance}></Route>
+                <Route exact path="/login" component={UserIsNotAuthenticated(Login)}></Route>
+                <Route exact path="/dashboard" component={UserIsAuthenticated(Dashboard)}></Route>
+                <Route exact path="/client/add" component={UserIsAuthenticated(addClients)}></Route>
+                <Route exact path="/client/:id" component={UserIsAuthenticated(clientDetail)}></Route>
+                <Route exact path="/client/edit/:id" component={UserIsAuthenticated(editClientBalance)}></Route>
               </Switch>
             
           </div>
