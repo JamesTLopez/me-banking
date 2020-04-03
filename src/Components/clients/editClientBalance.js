@@ -37,6 +37,7 @@ class editClientBalance extends Component {
 
     render() {
         const {client} = this.props
+        const {disableBalanceOnEdit} = this.props.settingsReducer
         
 
         if(client){
@@ -59,18 +60,20 @@ class editClientBalance extends Component {
                                     </div>
                                 </div>    
                                     <form onSubmit={this.onSubmitBalance}>
-                                        <label htmlFor="email">Edit balance</label>
+                                        <label>Edit balance</label>
                                             <div className="input-group mb-3">
                                                 <input type="text" 
                                                     name="balanceUpdateAmount"
                                                     className="form-control"
                                                     placeholder={client.balance}                                 
                                                     value={this.state.balanceUpdateAmount}
-                                                    onChange={this.onChange}/>
+                                                    onChange={this.onChange}
+                                                    disabled={disableBalanceOnEdit}
+                                                    />
                                             </div>
                                             <div className="row">
                                                 <div className="col">
-                                                    <button type="delete" value="Submit" className="btn btn-success btn-block"> Submit </button>
+                                                    <button type="delete" value="Submit" className="btn btn-success btn-block" disabled={!disableBalanceOnEdit}> Submit </button>
                                                 </div>
                                               
                                             </div>
@@ -102,7 +105,8 @@ export default compose(
     firestoreConnect((props) => [
         { collection:'clients',storeAs:'client',doc: props.match.params.id}
     ]), // or { collection: 'todos' }
-    connect(({firestore:{ordered}}, props) => ({
-      client: ordered.client && ordered.client[0]
+    connect(({firestore:{ordered},settingsReducer}, props) => ({
+      client: ordered.client && ordered.client[0],
+      settingsReducer
     }))
    )(editClientBalance);

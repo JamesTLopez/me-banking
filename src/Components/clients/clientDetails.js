@@ -34,7 +34,7 @@ class clientDetails extends Component {
 
     render() {
         const {client} = this.props
- 
+        const {disableBalanceOnEdit} = this.props.settingsReducer
        
         if(client){
             return (
@@ -105,6 +105,7 @@ class clientDetails extends Component {
                                             className="btn btn-secondary btn-block"
                                             onClick={this.onEdit}
                                             to={`/client/edit/${client.id}`}
+                                            disabled={disableBalanceOnEdit}
                                             >
                                                 Edit Balance
                                             </Link>
@@ -148,7 +149,8 @@ export default compose(
     firestoreConnect((props) => [
         { collection:'clients',storeAs:'client',doc: props.match.params.id}
     ]), // or { collection: 'todos' }
-    connect(({firestore:{ordered}}, props) => ({
-      client: ordered.client && ordered.client[0]
+    connect(({firestore:{ordered},settingsReducer}, props) => ({
+      client: ordered.client && ordered.client[0],
+      settingsReducer
     }))
    )(clientDetails);

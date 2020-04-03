@@ -35,3 +35,7 @@ html,body{
 .editClientBalance{
     height: 100%;
 }
+
+.spacing{
+    margin-right: 5px;
+}

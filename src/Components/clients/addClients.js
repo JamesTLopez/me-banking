@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import AppNavbar from '../Layouts/AppNavbar';
 import { firestoreConnect} from 'react-redux-firebase';
+import {compose} from 'redux'
+import { connect} from 'react-redux'
 import PropTypes from 'prop-types';
 
 
@@ -36,7 +38,9 @@ class addClients extends Component {
 
 
     render() {
+        const { disableBalanceOnAdd } = this.props.settingsReducer
         return (
+
             <div className="addClients-page">
                 <AppNavbar/>
                 <div className="container pt-5">
@@ -103,6 +107,7 @@ class addClients extends Component {
                                         minLength="2"
                                         onChange={this.onChange}
                                         value={this.state.balance}
+                                        disabled={!disableBalanceOnAdd}
                                         required/>
 
                                     </div>
@@ -127,8 +132,14 @@ class addClients extends Component {
  }
 
 addClients.propTypes = {
-    firestore: PropTypes.object.isRequired
+    firestore: PropTypes.object.isRequired,
+    settingsReducer: PropTypes.object.isRequired
 }
 
-export default firestoreConnect()(addClients);
+export default compose(
+    firestoreConnect(),
+    connect((state,props) =>({
+        settingsReducer: state.settingsReducer
+    }))
+)(addClients);
 // export default addClients

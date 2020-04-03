@@ -9,6 +9,8 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 //User components
 import Home from './Components/Pages/Home' ;
 import Login from './Components/auth/Login' ;
+import Register from './Components/auth/Register' ;
+import Settings from './Components/settings/Settings' ;
 import Dashboard from './Components/Layouts/Dashboard';
 import addClients from './Components/clients/addClients';
 import clientDetail from './Components/clients/clientDetails';
@@ -29,10 +31,12 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Home}></Route>
                 <Route exact path="/login" component={UserIsNotAuthenticated(Login)}></Route>
+                <Route exact path="/register" component={UserIsNotAuthenticated(Register)}></Route>
                 <Route exact path="/dashboard" component={UserIsAuthenticated(Dashboard)}></Route>
                 <Route exact path="/client/add" component={UserIsAuthenticated(addClients)}></Route>
                 <Route exact path="/client/:id" component={UserIsAuthenticated(clientDetail)}></Route>
                 <Route exact path="/client/edit/:id" component={UserIsAuthenticated(editClientBalance)}></Route>
+                <Route exact path="/settings" component={UserIsAuthenticated(Settings)}></Route>
               </Switch>
             
           </div>

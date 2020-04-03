@@ -9,7 +9,7 @@ import Alert from '../Layouts/Alert'
 import Footer from '../Layouts/Footer'
 
 
-class Login extends Component {
+class Register extends Component {
     state = {
         email:'',
         password:''
@@ -24,10 +24,10 @@ class Login extends Component {
         const {firebase, notifyUser} = this.props
         const {email,password} = this.state;
         
-        firebase.login({
+        firebase.createUser({
             email,
             password
-        }).catch(err => notifyUser('Invalid User','error'))
+        }).catch(err => notifyUser('User Already exists','error'))
        
     }
     
@@ -42,7 +42,7 @@ class Login extends Component {
                         <div className="d-flex justify-content-end">
                             <ul className="navbar-nav">
                                 <li className="nav-item">
-                                    <Link to="/register" className="nav-link text-white">Register</Link>
+                                    <Link to="/login" className="nav-link text-white">Login</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link to="/" className="nav-link text-white">Back to Home</Link>
@@ -56,7 +56,7 @@ class Login extends Component {
                         <div className="col-lg-12 col-md-12">
                             <div className="card">
                                 <div className="card-header">
-                                    <h1>Login</h1>
+                                    <h1>Register</h1>
                                 </div>
                                 <div className="card-body">
                                     {message ? (
@@ -83,7 +83,7 @@ class Login extends Component {
                                                     value={this.state.password}
                                                     required/>
                                                 </div>
-                                                <input type="submit" value="Submit" className="btn btn-primary btn-block"></input>
+                                                <input type="submit" value="Register" className="btn btn-primary btn-block"></input>
                                     </form>
                                 </div>
                              </div>
@@ -98,7 +98,7 @@ class Login extends Component {
     }
 }
 
-Login.propTypes = {
+Register.propTypes = {
     firebase:PropTypes.object.isRequired,
     notify:PropTypes.object.isRequired,
     notifyUser:PropTypes.func.isRequired
@@ -110,4 +110,4 @@ export default compose(
     connect((state,props) => ({
         notify:state.notifyReducer
     }),{notifyUser})
-)(Login);
+)(Register);

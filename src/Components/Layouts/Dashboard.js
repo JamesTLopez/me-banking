@@ -13,7 +13,7 @@ export default class Dashboard extends Component {
             <div className="Dashboard">
                 <AppNavbar/>
                 <div className="container mt-5">
-                    <div className="row ">
+                    <div className="row">
                         <div className="col-md-10 shadow-sm">
                             <Clients/>
                         </div>

@@ -7,7 +7,10 @@ export default function Sidebar() {
         <div>
             <Link to="/client/add" className="btn btn-success btn-block">
                 Add
-            </Link>           
+            </Link>  
+            <Link to="/settings" className="btn btn-danger btn-block">
+                Settings
+            </Link>          
         </div>
     )
 }
